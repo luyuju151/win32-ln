@@ -1,4 +1,5 @@
 #Win32 Ln
+`forked from malash/win32-ln`
 
 Windows链接生成器，可用于生成符号链接、硬链接、目录联接。
 
