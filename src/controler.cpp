@@ -4,18 +4,16 @@
 
 #include "controler.h"
 
-#include <QTextCodec>
 #include <QStringList>
 #include <QClipboard>
 #include <QMessageBox>
 #include <QFileInfo>
-#include <QProcess>
 #include <QDir>
 #include <QStringList>
 #include <QRegularExpression>
 
 
-#include <QDebug>
+//#include <QDebug>
 
 #include <windows.h>
 
@@ -23,10 +21,6 @@ Controler::Controler(QApplication *app)
 {
     this->app = app;
 
-//    QTextCodec *codec = QTextCodec::codecForName("UTF8");
-//    QTextCodec::setCodecForLocale(codec);
-//    QTextCodec::setCodecForCStrings(codec);
-//    QTextCodec::setCodecForTr(codec);
 }
 
 int Controler::exec()
@@ -52,30 +46,28 @@ int Controler::exec()
         {
             clipStrList = clipStr.replace('\n',"").split("file:///", QString::SkipEmptyParts);
         }
-        else //contains ''\n''
+        else //only contains ''\n''
         {
-            qDebug()<<"has \\n";
+//            qDebug()<<"has \\n";
             clipStrList = clipStr.replace('"',"").split("\n", QString::SkipEmptyParts);
         }
             
         int clipListLength=clipStrList.length();
         for (int i = 0; i < clipListLength; i++)
         {
+            clipStrList[i]=clipStrList.at(i).trimmed();
             if (clipStrList.at(i).length() == 0)
             {
                 clipStrList.removeAt(i);
             }
-            
         }
-        qDebug()<<"clipStrList: "<< clipStrList;
+//        qDebug()<<"clipStrList: "<< clipStrList;
         
         if (clipListLength == 0)
         {
             return this->exit(tr("不是合法的文件/目录"));
         }
         
-//        QFileInfo *destination = new QFileInfo(arguments.at(0));
-//        qDebug(qPrintable("arguments.at(0): " + arguments.at(0)));
         QFileInfo source;
         for(int i=0;i<clipListLength;++i)
         {
@@ -105,10 +97,6 @@ int Controler::exec()
         }
 
         return this->exit(NULL);
-//        if (destination->exists()) {
-//            return this->exit(tr("目标文件/目录已存在"));
-//        }
-
         
     }
     else

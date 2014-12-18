@@ -18,5 +18,4 @@ SOURCES += main.cpp\
 HEADERS  += \
     controler.h
 
-FORMS    +=
-
+RC_ICONS =emblem-symbolic-link-3.ico
