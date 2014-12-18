@@ -1,4 +1,4 @@
-#ifndef CONTROLER_H
+﻿#ifndef CONTROLER_H
 #define CONTROLER_H
 
 #include <QObject>
@@ -9,6 +9,7 @@ class Controler : public QObject
     Q_OBJECT
 public:
     explicit Controler(QApplication *app);
+    enum SymbolHardFlag{Symol,Hard};
     int exec();
 
 private:

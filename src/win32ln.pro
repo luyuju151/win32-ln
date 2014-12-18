@@ -10,16 +10,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = win32ln
 TEMPLATE = app
-
+LIBS += shell32.lib 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    controler.cpp \
-    welcomewindow.cpp
+    controler.cpp
 
-HEADERS  += mainwindow.h \
-    controler.h \
-    welcomewindow.h
+HEADERS  += \
+    controler.h
 
-FORMS    += mainwindow.ui \
-    welcomewindow.ui
+FORMS    +=
+

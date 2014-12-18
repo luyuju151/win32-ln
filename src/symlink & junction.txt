@@ -1,0 +1,43 @@
+A junction is definitely not the same thing as a directory symbolic link, although they behave similarly. The main difference is that, if you are looking at a remote server, junctions are processed at the server and directory symbolic links are processed at the client. Also see Matthew's comment on the fact that this means symbolic links on the local filesystem can point to remote filesystems.
+
+Suppose that on a machine named Alice you were to put a junction point c:\myjp and a directory symbolic link c:\mysymlink, both pointing to c:\targetfolder. While you're using Alice you won't notice much difference between them. But if you're using another machine named Bob, then
+
+\\Alice\c$\myjp -> \\Alice\c$\targetfolder
+
+but
+
+\\Alice\c$\mysymlink -> \\Bob\c$\targetfolder.
+
+(Caveat: by default, the system doesn't follow symlinks on remote volumes, so in most cases the second example will actually result in either "File Not Found" or "The symbolic link cannot be followed because its type is disabled.")
+
+The difference between a directory symbolic link and a file symbolic link is simply that one represents a directory and one represents a file. Since the target of the link doesn't need to exist when the link is created, the file system needs to know whether to tell applications that it is a directory or not.
+
+It should also be noted that creating a symbolic link requires special privilege (by default, only available to elevated processes) whereas creating a junction only requires access to the file system.
+share|improve this answer
+	
+edited Jun 13 '13 at 21:57
+
+	
+community wiki
+
+6 revs, 2 users 81%
+Harry Johnston
+	
+2 	 
+	
+Just to be clear: there may well be other subtler functional differences between directory junctions and directory symbolic links. The remote vs. local thing is just the most obvious from a user (as opposed to a developer) perspective. –  Harry Johnston Oct 5 '11 at 4:02
+5 	 
+	
+@MatthewSteeples do you mean that if I create a symbolic link C:\testlink (which points to C:\test on my computer) and someone remote access my computer and clicks on C:\testlink, it would resolve to the C:\test on HIS computer, Whereas if I create a directory junction C:\testlink (which points to C:\test on my computer), and someone remote access my computer and clicks on C:\testlink) it would lead him to the C:\test on my computer? Or did I get it the wrong way round? –  Pacerier Oct 5 '11 at 8:19
+2 	 
+	
+@Pacerier in this context yes, but symbolic links allow you to have a folder on your computer that points to a network share (because they're resolved client side). Eg C:\MyNetworkShare could actually point to \\Alice\Share –  Matthew Steeples Oct 6 '11 at 14:57
+1 	 
+	
+@MatthewSteeples but couldn't we create a directory junction C:\MyNetworkShare which points to \\Alice\Share as well? –  Pacerier Oct 7 '11 at 10:44
+1 	 
+	
+@Pacerier, no, junction points have to be local. –  Harry Johnston Oct 8 '11 at 0:05 
+
+
+http://superuser.com/questions/343074/directory-junction-vs-directory-symbolic-link
